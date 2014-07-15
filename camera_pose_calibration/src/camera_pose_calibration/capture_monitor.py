@@ -67,7 +67,7 @@ class ImageRenderer:
     def render(self, window):
         with self.lock:
             if self.image and self.image_time + rospy.Duration(8.0) > rospy.Time.now() and self.info_time + rospy.Duration(8.0) > rospy.Time.now():
-                cv.Resize(self.bridge.imgmsg_to_cv(self.image, 'rgb8'), window)
+                cv.Resize(self.bridge.imgmsg_to_cv(self.image, 'passthrough'), window)
                 # render progress bar
                 interval = min(1,(self.interval / self.max_interval))
                 cv.Rectangle(window,
@@ -94,9 +94,9 @@ class ImageRenderer:
             else:
                 # Generate random white noise (for fun)
                 noise = numpy.random.rand(window.height, window.width)*256
-                numpy.asarray(window)[:,:,0] = noise;
-                numpy.asarray(window)[:,:,1] = noise;
-                numpy.asarray(window)[:,:,2] = noise;
+                numpy.asarray(window)[:,:,0] = noise
+                numpy.asarray(window)[:,:,1] = noise
+                numpy.asarray(window)[:,:,2] = noise
                 cv.PutText(window, self.ns, (int(window.width * .05), int(window.height * .95)), self.font, (0,0,255))
 
 
@@ -200,7 +200,7 @@ class Aggregator:
                             beep([(400, 63, 0.1), (200, 63, 0.1), (100, 63, 0.6)])
 
                 else:
-                    self.pub.publish(self.bridge.cv_to_imgmsg(self.image_out, encoding="passthrough"))
+                    self.pub.publish(self.bridge.cv_to_imgmsg(self.image_out, encoding="bgr8"))
 
 
 
