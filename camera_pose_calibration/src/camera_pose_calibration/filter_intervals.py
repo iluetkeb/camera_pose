@@ -24,7 +24,7 @@ class FilterIntervals:
         self.last_feature = None
 
         self.pub = rospy.Publisher('interval_filtered', Interval)
-        self.sub_intervals = rospy.Subscriber('interval', Interval, self.interval_cb)
+        self.sub_intervals = rospy.Subscriber('intersected_interval', Interval, self.interval_cb)
         self.sub_features = rospy.Subscriber('features', CalibrationPattern, self.feature_cb)
 
 
